@@ -22,6 +22,9 @@ public abstract class MovingObject : MonoBehaviour {
 
 	protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
 	{
+		Debug.Log ("Inside MovingObject.Move()");
+
+
 		// out mean that we'll pass this by reference
 		Vector2 start = transform.position;
 		Vector2 end = start + new Vector2 (xDir, yDir);
@@ -51,9 +54,12 @@ public abstract class MovingObject : MonoBehaviour {
 	protected virtual void AttemptMove <T> (int xDir, int yDir)
 		where T: Component
 	{
+		Debug.Log ("Inside MovingObject.AttemptMove()");
+
 		RaycastHit2D hit;
 
 		bool canMove = Move (xDir, yDir, out hit);
+
 		if (hit.transform == null) {
 			return;
 		}

@@ -28,10 +28,10 @@ public class Player : MovingObject {
 		GameManager.instance.playerFoodPoints = food;
 	}
 
-	void update()
+	void Update()
 	{
-		if (!GameManager.instance.playersTurn)
-			return;
+		if(!GameManager.instance.playersTurn) return;
+
 		int horizontal = 0;
 		int vertical = 0;
 
@@ -55,11 +55,11 @@ public class Player : MovingObject {
 		RaycastHit2D hit;
 		CheckIfGameOver ();
 		GameManager.instance.playersTurn = false;
-
 	}
 
-	private void OnTrigger2D (Collider2D other)
+	private void OnTriggerEnter2D (Collider2D other)
 	{
+		Debug.Log ($"other == {other.tag}");
 		if (other.tag == "Exit") {
 			Invoke ("Restart", restartLevelDelay);
 			enabled = false;
@@ -84,7 +84,7 @@ public class Player : MovingObject {
 		SceneManager.LoadScene (0);
 	}
 
-	private void LoseFood(int loss) {
+	public void LoseFood(int loss) {
 		animator.SetTrigger ("playerHit");
 		food -= loss;
 		CheckIfGameOver ();
