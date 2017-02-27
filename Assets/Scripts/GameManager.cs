@@ -16,31 +16,50 @@ public class GameManager : MonoBehaviour {
 
 	private Text levelText;
 	private GameObject levelImage;
-	private int level = 1;
+	private int level = 0;
 	private List<Enemy> enemies;
 	private bool enemiesMoving;
 	private bool doingSetup;
 
 	void Awake () {
-		if (instance == null) { 
+//		if (instance == null) { 
+//			instance = this;
+//		} else if (instance != this) {
+//			Destroy(gameObject);
+//		}
+//
+		if (instance == null)
+
+			//if not, set instance to this
 			instance = this;
-		} else if (instance != this) {
-			Destroy(gameObject);
-		}
+
+		//If instance already exists and it's not this:
+		else if (instance != this)
+
+			//Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+			Destroy(gameObject);    
+
+
 
 		DontDestroyOnLoad(gameObject);
 
 		enemies = new List<Enemy> ();
 
 		boardScript = GetComponent<BoardManager> ();
-		InitGame ();
+
+		Debug.Log ($"Level orginally at: {level}");
+		// InitGame ();
+		// ^ tutorial had this in there, but it caused it to increment level incorrectly
+		// (started on level 2 all the time) 
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode
 		mode)
 	{
 		//Add one to our level number.
+		Debug.Log ($"Level was: {level}");
 		level++;
+		Debug.Log ($"Level now: {level}");
 		//Call InitGame to initialize our level.
 		InitGame();
 	}
@@ -64,12 +83,13 @@ public class GameManager : MonoBehaviour {
 
 		levelImage = GameObject.Find ("LevelImage");
 		levelText = GameObject.Find ("LevelText").GetComponent<Text> ();
-		levelText.text = "Day " + 1;
+		levelText.text = "Day " + level;
 		levelImage.SetActive (true);
 		Invoke ("HideLevelImage", levelStartDelay);
 
-		boardScript.SetupScene (level);
 		enemies.Clear ();
+
+		boardScript.SetupScene (level);
 	}
 
 	private void HideLevelImage()

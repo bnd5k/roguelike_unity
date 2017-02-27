@@ -54,7 +54,7 @@ namespace Completed
 			InitGame();
 		}
 
-        //this is called only once, and the paramter tell it to be called only after the scene was loaded
+        //this is called only once,	 and the paramter tell it to be called only after the scene was loaded
         //(otherwise, our Scene Load callback would be called the very first load, and we don't want that)
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static public void CallbackInitialization()
